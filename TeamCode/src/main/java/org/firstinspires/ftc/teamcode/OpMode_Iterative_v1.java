@@ -27,8 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -61,6 +62,7 @@ public class BasicOpMode_Iterative extends OpMode
 
     // Declare sound effects to play when doing actions
     int freddy_laugh = hardwareMap.appContext.getResources().getIdentifier("freddy_laugh", "raw", hardwareMap.appContext.getPackageName());
+    private boolean LastMotorBool = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -128,7 +130,15 @@ public class BasicOpMode_Iterative extends OpMode
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
 
-        // Get buttons pressed to do actions like moving
+        // Get buttons pressed to do actions like moving or shooting
+        boolean button_a = gamepad1.button_a;
+
+        // Play actions if a command returns true
+        if(button_a & !LastMotorBool) {
+            SoundPool.name(freddy_laugh);
+        }
+
+        LastMotorBool = button_a;
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
