@@ -60,8 +60,7 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor rightDrive = null;
 
     // Declare sound effects to play when doing actions
-
-
+    int freddy_laugh = hardwareMap.appContext.getResources().getIdentifier("freddy_laugh", "raw", hardwareMap.appContext.getPackageName());
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -128,6 +127,8 @@ public class BasicOpMode_Iterative extends OpMode
         // Send calculated power to wheels
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
+
+        // Get buttons pressed to do actions like moving
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
