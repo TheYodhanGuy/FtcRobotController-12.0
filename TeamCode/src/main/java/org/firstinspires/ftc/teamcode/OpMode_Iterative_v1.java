@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.ftccommon.SoundPlayer;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -53,16 +52,19 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Basic: Iterative OpMode", group="Iterative OpMode")
 
-public class BasicOpMode_Iterative extends OpMode
+public class OpMode_Iterative_v1 extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
+    
+    // Declares motors and other variables
+    private CRServo GateMotor;
+    private boolean lastBoolMotor = false;
 
-    // Declare sound effects to play when doing actions
+    // Declare sound effects
     int freddy_laugh = hardwareMap.appContext.getResources().getIdentifier("freddy_laugh", "raw", hardwareMap.appContext.getPackageName());
-    private boolean LastMotorBool = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -82,6 +84,9 @@ public class BasicOpMode_Iterative extends OpMode
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
+
+        // Declare Motors and extra stuff to run
+        GateMotor = hardwareMap.get(CRServo.class, "GateMotor");
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -117,28 +122,36 @@ public class BasicOpMode_Iterative extends OpMode
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
         double drive = -gamepad1.left_stick_y;
-        double turn =  gamepad1.right_stick_x;
-        leftPower = Range.clip(drive + turn, -1.0, 1.0);
-        rightPower = Range.clip(drive - turn, -1.0, 1.0);
+        double turn  =  gamepad1.right_stick_x;
+        leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+        rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
-        // leftPower  = -gamepad1.left_stick_y;
-        // rightPower = -gamepad1.right_stick_y;
+        // leftPower  = -gamepad1.left_stick_y ;
+        // rightPower = -gamepad1.right_stick_y ;
 
         // Send calculated power to wheels
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
 
-        // Get buttons pressed to do actions like moving or shooting
-        boolean button_a = gamepad1.button_a;
+        // Sound effects run right here
+        boolean button_laugh = gamepad2.a;
 
-        // Play actions if a command returns true
-        if(button_a & !LastMotorBool) {
-            SoundPool.name(freddy_laugh);
+        if (button_laugh & !lastBoolMotor) {
+            SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, freddy_laugh);
         }
 
-        LastMotorBool = button_a;
+        boolean lastBoolMotor = button_laugh;
+
+        // Motors and extra to run right here
+        if (gamepad1.dpad_right) {
+            crServo.setPower(1.0);
+        } else if (gamepad1.dpad_left) {
+            crServo.setPower(-1.0);
+        } else if (gamepad1.dpad_down) {
+            crServo.setPower(0.0);
+        }
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
