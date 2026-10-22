@@ -32,10 +32,10 @@ class first_code {
             double max = Math.max(Math.abs(sin), Math.abs(cos));
 
             // Applies sin, cos, power, turn
-            front_right = power * sin/max - turn;
             front_left = power * cos/max + turn;
-            back_right = power * sin/max - turn;
-            back_left = power * cos/max + turn;
+            front_right = power * sin/max - turn;
+            back_left = power * sin/max + turn;
+            back_right = power * cos/max - turn;
 
             // Used if power plus abs turn is higher than 1.0 
             if ((power + Math.abs(turn)) > 1) {
