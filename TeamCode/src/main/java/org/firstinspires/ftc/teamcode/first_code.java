@@ -3,10 +3,12 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.*;
 import com.qualcomm.robotcore.hardware.*;
 
+@TeleOp(name = "Basic code", group = "LinearOpMode")
 class first_code {
 
     private DcMotor back_right, back_left, front_right, front_left;
 
+    @Override
     public void RunOpMode(HardwareMap hwMap) {
         back_right = hwMap.get(DcMotor.class, "back_right_motor");
         back_left = hwMap.get(DcMotor.class, "back_left_motor");
