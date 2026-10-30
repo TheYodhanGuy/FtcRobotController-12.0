@@ -26,7 +26,7 @@ class first_code {
 
             // Used for direction and power
             double power = Math.hypot(x, y); 
-            double theta = Math.atan2(y, x);
+            double teath = Math.atan2(y, x);
 
             //  Used thena so it's more correct to what the user wants
             double sin = Math.sin(teath - Math.PI/4);

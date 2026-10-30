@@ -87,8 +87,7 @@ public class teach_lesson_1 extends OpMode {
         // Finally, call the drive method with robot relative forward and right amounts
         drive(newForward, newRight, rotate);
     }
-
-    // Thanks to FTC16072 for sharing this code!!
+!
     public void drive(double forward, double right, double rotate) {
         // This calculates the power needed for each wheel based on the amount of forward,
         // strafe right, and rotate
